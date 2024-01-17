@@ -16,7 +16,7 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
-  console.log(listings);
+  
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -51,6 +51,11 @@ export default function Search() {
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 8) {
+        setShowMore(true);
+      }else{
+        setShowMore(false);
+      }
       setListings(data);
       setLoading(false);
     };
